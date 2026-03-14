@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>进制转换工具</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="converter-card">
+      <h1>进制转换工具</h1>
+      <p class="description">支持 2~36 进制之间的整数转换。</p>
+
+      <form id="converter-form" novalidate>
+        <label for="source-value">输入数值</label>
+        <input
+          id="source-value"
+          name="sourceValue"
+          type="text"
+          placeholder="例如：1010 / ff / 255"
+          autocomplete="off"
+          required
+        />
+
+        <div class="base-row">
+          <div>
+            <label for="from-base">原始进制</label>
+            <input id="from-base" name="fromBase" type="number" min="2" max="36" value="10" required />
+          </div>
+          <div>
+            <label for="to-base">目标进制</label>
+            <input id="to-base" name="toBase" type="number" min="2" max="36" value="2" required />
+          </div>
+        </div>
+
+        <button type="submit">开始转换</button>
+      </form>
+
+      <section class="result">
+        <h2>转换结果</h2>
+        <output id="result-value">-</output>
+        <p id="result-error" class="error" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
