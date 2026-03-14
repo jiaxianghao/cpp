@@ -1,0 +1,99 @@
+2025-07-04 17:26:39 INFO  <crash_demo.c:main> $$ 程序启动
+2025-07-04 17:26:39 INFO  <crash_demo.c:main> $$ 选择无效内存访问测试
+2025-07-04 17:26:39 INFO  <crash_demo.c:cause_invalid_memory_access> $$ 即将访问无效内存...
+2025-07-04 17:26:39 INFO  <crash_demo.c:signal_handler> $$ 
+2025-07-04 17:26:39 INFO  <crash_demo.c:signal_handler> $$ ==========================================================
+2025-07-04 17:26:39 INFO  <crash_demo.c:signal_handler> $$ 捕获到信号 11(Segmentation fault), 代码 (1)
+2025-07-04 17:26:39 INFO  <crash_demo.c:signal_handler> $$ ==========================================================
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_registers> $$ ==========================================================
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_registers> $$ 程序崩溃，记录寄存器信息
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_registers> $$ ==========================================================
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ 调用栈信息:
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ Backtrace: 7 stack frames.
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x1642) [0x559413d6a642]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x18ec) [0x559413d6a8ec]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ /lib/x86_64-linux-gnu/libc.so.6(+0x43090) [0x7fb37abc0090]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x1ae9) [0x559413d6aae9]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x1d19) [0x559413d6ad19]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7fb37aba1083]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x132e) [0x559413d6a32e]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 进程内存映射:
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 559413d69000-559413d6a000 r--p 00000000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 559413d6a000-559413d6b000 r-xp 00001000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 559413d6b000-559413d6c000 r--p 00002000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 559413d6c000-559413d6d000 r--p 00002000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 559413d6d000-559413d6e000 rw-p 00003000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 5594252a3000-5594252c4000 rw-p 00000000 00:00 0                          [heap]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ab5f000-7fb37ab62000 r--p 00000000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ab62000-7fb37ab74000 r-xp 00003000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ab74000-7fb37ab78000 r--p 00015000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ab78000-7fb37ab79000 r--p 00018000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ab79000-7fb37ab7a000 rw-p 00019000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ab7a000-7fb37ab7d000 rw-p 00000000 00:00 0 
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ab7d000-7fb37ab9f000 r--p 00000000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ab9f000-7fb37ad17000 r-xp 00022000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ad17000-7fb37ad65000 r--p 0019a000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ad65000-7fb37ad69000 r--p 001e7000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ad69000-7fb37ad6b000 rw-p 001eb000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ad6b000-7fb37ad6f000 rw-p 00000000 00:00 0 
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ad86000-7fb37ad88000 rw-p 00000000 00:00 0 
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ad88000-7fb37ad89000 r--p 00000000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37ad89000-7fb37adac000 r-xp 00001000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37adac000-7fb37adb4000 r--p 00024000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37adb5000-7fb37adb6000 r--p 0002c000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37adb6000-7fb37adb7000 rw-p 0002d000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7fb37adb7000-7fb37adb8000 rw-p 00000000 00:00 0 
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7ffc0a467000-7ffc0a489000 rw-p 00000000 00:00 0                          [stack]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7ffc0a4b9000-7ffc0a4bd000 r--p 00000000 00:00 0                          [vvar]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ 7ffc0a4bd000-7ffc0a4bf000 r-xp 00000000 00:00 0                          [vdso]
+2025-07-04 17:26:39 INFO  <crash_demo.c:dump_process_maps> $$ ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]
+2025-07-04 17:29:46 INFO  <crash_demo.c:main> $$ 程序启动
+2025-07-04 17:29:46 INFO  <crash_demo.c:main> $$ 选择无效内存访问测试
+2025-07-04 17:29:46 INFO  <crash_demo.c:cause_invalid_memory_access> $$ 即将访问无效内存...
+2025-07-04 17:29:46 INFO  <crash_demo.c:signal_handler> $$ 
+2025-07-04 17:29:46 INFO  <crash_demo.c:signal_handler> $$ ==========================================================
+2025-07-04 17:29:46 INFO  <crash_demo.c:signal_handler> $$ 捕获到信号 11(Segmentation fault), 代码 (1)
+2025-07-04 17:29:46 INFO  <crash_demo.c:signal_handler> $$ 访问地址: 0x12345678
+2025-07-04 17:29:46 INFO  <crash_demo.c:signal_handler> $$ ==========================================================
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_registers> $$ ==========================================================
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_registers> $$ 程序崩溃，记录寄存器信息
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_registers> $$ ==========================================================
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ 调用栈信息:
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ Backtrace: 7 stack frames.
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x1642) [0x559b643b8642]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x190c) [0x559b643b890c]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ /lib/x86_64-linux-gnu/libc.so.6(+0x43090) [0x7f29f0d90090]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x1b09) [0x559b643b8b09]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x1d39) [0x559b643b8d39]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7f29f0d71083]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_backtrace> $$ ./crash_demo(+0x132e) [0x559b643b832e]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 进程内存映射:
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 559b643b7000-559b643b8000 r--p 00000000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 559b643b8000-559b643b9000 r-xp 00001000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 559b643b9000-559b643ba000 r--p 00002000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 559b643ba000-559b643bb000 r--p 00002000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 559b643bb000-559b643bc000 rw-p 00003000 103:07 19663389                  /home/uisee/work/crash_test/crash_demo
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 559b986f9000-559b9871a000 rw-p 00000000 00:00 0                          [heap]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0d2f000-7f29f0d32000 r--p 00000000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0d32000-7f29f0d44000 r-xp 00003000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0d44000-7f29f0d48000 r--p 00015000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0d48000-7f29f0d49000 r--p 00018000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0d49000-7f29f0d4a000 rw-p 00019000 103:07 20711588                  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0d4a000-7f29f0d4d000 rw-p 00000000 00:00 0 
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0d4d000-7f29f0d6f000 r--p 00000000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0d6f000-7f29f0ee7000 r-xp 00022000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0ee7000-7f29f0f35000 r--p 0019a000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f35000-7f29f0f39000 r--p 001e7000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f39000-7f29f0f3b000 rw-p 001eb000 103:07 20711617                  /usr/lib/x86_64-linux-gnu/libc-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f3b000-7f29f0f3f000 rw-p 00000000 00:00 0 
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f56000-7f29f0f58000 rw-p 00000000 00:00 0 
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f58000-7f29f0f59000 r--p 00000000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f59000-7f29f0f7c000 r-xp 00001000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f7c000-7f29f0f84000 r--p 00024000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f85000-7f29f0f86000 r--p 0002c000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f86000-7f29f0f87000 rw-p 0002d000 103:07 20711564                  /usr/lib/x86_64-linux-gnu/ld-2.31.so
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7f29f0f87000-7f29f0f88000 rw-p 00000000 00:00 0 
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7ffe3adae000-7ffe3add0000 rw-p 00000000 00:00 0                          [stack]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7ffe3add2000-7ffe3add6000 r--p 00000000 00:00 0                          [vvar]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ 7ffe3add6000-7ffe3add8000 r-xp 00000000 00:00 0                          [vdso]
+2025-07-04 17:29:46 INFO  <crash_demo.c:dump_process_maps> $$ ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]

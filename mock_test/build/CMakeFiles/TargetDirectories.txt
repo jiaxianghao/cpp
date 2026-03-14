@@ -1,0 +1,3 @@
+/home/uisee/work/test2/build/CMakeFiles/uos_rmap_mock_test.dir
+/home/uisee/work/test2/build/CMakeFiles/edit_cache.dir
+/home/uisee/work/test2/build/CMakeFiles/rebuild_cache.dir

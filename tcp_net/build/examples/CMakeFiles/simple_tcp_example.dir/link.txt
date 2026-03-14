@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -Wpedantic -fPIC -O3 -DNDEBUG -O3 -DNDEBUG CMakeFiles/simple_tcp_example.dir/simple_tcp_example.cc.o -o ../bin/simple_tcp_example  ../lib/libtcp_network_lib.a -lpthread -lrt -lpthread

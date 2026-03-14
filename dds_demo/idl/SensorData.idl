@@ -1,0 +1,10 @@
+// Sensor data message type
+struct SensorData
+{
+    string sensor_id;
+    string sensor_type;
+    double value;
+    string unit;
+    long timestamp;
+    boolean is_valid;
+};

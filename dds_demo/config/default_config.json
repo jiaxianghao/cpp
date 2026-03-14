@@ -1,0 +1,15 @@
+{
+    "domain_id": 0,
+    "participant_name": "DDSWrapper_Participant",
+    "qos": {
+        "reliability": "reliable",
+        "durability": "transient_local",
+        "history_depth": 10
+    },
+    "logging": {
+        "level": "INFO",
+        "file_output": true,
+        "log_dir": "logs",
+        "console_output": true
+    }
+}

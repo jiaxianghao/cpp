@@ -1,0 +1,39 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": "password",
+    "database": "myapp",
+    "max_connections": 20,
+    "min_connections": 5,
+    "connection_timeout": 30,
+    "auto_reconnect": true
+  },
+  "cache": {
+    "host": "localhost",
+    "port": 6379,
+    "database": 0,
+    "password": "",
+    "connection_timeout": 5,
+    "socket_timeout": 5,
+    "pool_size": 10
+  },
+  "log": {
+    "level": "info",
+    "file": "logs/app.log",
+    "max_file_size": 5242880,
+    "max_files": 3,
+    "console_output": true,
+    "file_output": true
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8080,
+    "thread_pool_size": 4,
+    "request_timeout": 30,
+    "enable_ssl": false,
+    "ssl_cert_file": "",
+    "ssl_key_file": ""
+  }
+}

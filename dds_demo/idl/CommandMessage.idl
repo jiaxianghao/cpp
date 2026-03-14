@@ -1,0 +1,20 @@
+// Command message type for control operations
+enum CommandType
+{
+    START,
+    STOP,
+    PAUSE,
+    RESUME,
+    RESET,
+    CONFIGURE
+};
+
+struct CommandMessage
+{
+    string command_id;
+    CommandType command_type;
+    string target_id;
+    string parameters;
+    long timestamp;
+    long priority;
+};

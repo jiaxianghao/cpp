@@ -1,0 +1,141 @@
+╔════════════════════════════════════════════════════════════════════╗
+║              分层架构数据库应用 - 架构图示                          ║
+╚════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                      Application Layer (app/)                       │
+│                                                                      │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │                          main.cpp                            │  │
+│  │  - 初始化 DatabaseService                                     │  │
+│  │  - 创建业务模块实例                                            │  │
+│  │  - 协调各模块完成业务流程                                      │  │
+│  └──────────────────────────────────────────────────────────────┘  │
+└─────────────────────────┬───────────────────────────────────────────┘
+                          │
+                          │ uses
+                          ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                 Business Logic Layer (modules/)                     │
+│                                                                      │
+│  ┌─────────────┐    ┌──────────────┐    ┌──────────────┐          │
+│  │UserModule   │    │OrderModule   │    │ProductModule │          │
+│  │             │    │              │    │              │          │
+│  │- register   │    │- createOrder │    │- addProduct  │          │
+│  │- getProfile │    │- getOrders   │    │- updateStock │          │
+│  │- update     │    │- complete    │    │- getProducts │          │
+│  │- deactivate │    │- cancel      │    │- findByPrice │          │
+│  └─────────────┘    └──────────────┘    └──────────────┘          │
+└─────────────────────────┬───────────────────────────────────────────┘
+                          │
+                          │ accesses via DatabaseService
+                          ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                     Core/DAO Layer (core/)                          │
+│                                                                      │
+│  ┌────────────────────────────────────────────────────────────┐    │
+│  │              DatabaseService (Singleton)                   │    │
+│  │  - getInstance()                                           │    │
+│  │  - initialize()                                            │    │
+│  │  - getUserDAO() / getOrderDAO() / getProductDAO()          │    │
+│  │  - beginTransaction() / commit() / rollback()              │    │
+│  └────────────┬────────────────┬─────────────────┬────────────┘    │
+│               │                │                 │                  │
+│               ▼                ▼                 ▼                  │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐   │
+│  │   UserDAO       │  │   OrderDAO      │  │  ProductDAO     │   │
+│  │                 │  │                 │  │                 │   │
+│  │ - create()      │  │ - create()      │  │ - create()      │   │
+│  │ - findById()    │  │ - findById()    │  │ - findById()    │   │
+│  │ - findAll()     │  │ - findByUserId()│  │ - findAll()     │   │
+│  │ - update()      │  │ - findByStatus()│  │ - update()      │   │
+│  │ - delete()      │  │ - updateStatus()│  │ - updateStock() │   │
+│  │ - findActive()  │  │ - calculate...()│  │ - findAvailable │   │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘   │
+│               │                │                 │                  │
+│               └────────────────┴─────────────────┘                  │
+│                                │                                    │
+│                                │ uses                               │
+│                                ▼                                    │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐   │
+│  │  User Entity    │  │  Order Entity   │  │ Product Entity  │   │
+│  │                 │  │                 │  │                 │   │
+│  │ + id            │  │ + id            │  │ + id            │   │
+│  │ + name          │  │ + userId        │  │ + name          │   │
+│  │ + email         │  │ + productName   │  │ + description   │   │
+│  │ + age           │  │ + quantity      │  │ + price         │   │
+│  │ + isActive      │  │ + totalPrice    │  │ + stock         │   │
+│  │                 │  │ + status        │  │ + available     │   │
+│  │ + toRecord()    │  │ + toRecord()    │  │ + toRecord()    │   │
+│  │ + fromRecord()  │  │ + fromRecord()  │  │ + fromRecord()  │   │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘   │
+└─────────────────────────┬───────────────────────────────────────────┘
+                          │
+                          │ uses
+                          ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│              Infrastructure Layer (db_util/)                        │
+│                                                                      │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │                    TableManager                              │  │
+│  │  - insert() / insertBatch()                                  │  │
+│  │  - select() / selectWhere() / selectById()                   │  │
+│  │  - update() / updateById()                                   │  │
+│  │  - delete() / deleteById()                                   │  │
+│  │  - count() / countWhere()                                    │  │
+│  │  - createTable() / dropTable()                               │  │
+│  │  - beginTransaction() / commit() / rollback()                │  │
+│  └───────────────────────────┬──────────────────────────────────┘  │
+│                               │                                     │
+│                               │ uses                                │
+│                               ▼                                     │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │                   DatabaseManager                            │  │
+│  │  - connect() / disconnect() / isConnected()                  │  │
+│  │  - executeQuery() / executeSelect()                          │  │
+│  │  - prepareStatement() / executePreparedStatement()           │  │
+│  │  - beginTransaction() / commit() / rollback()                │  │
+│  │  - getLastError() / getLastInsertId()                        │  │
+│  └───────────────────────────┬──────────────────────────────────┘  │
+└───────────────────────────────┼──────────────────────────────────────┘
+                                │
+                                │ uses
+                                ▼
+                  ┌─────────────────────────────┐
+                  │   MySQL Connector/C++       │
+                  │   (mysql_driver.h)          │
+                  └──────────────┬──────────────┘
+                                 │
+                                 ▼
+                  ┌─────────────────────────────┐
+                  │      MySQL Database         │
+                  │                             │
+                  │  - users table              │
+                  │  - orders table             │
+                  │  - products table           │
+                  └─────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════
+
+数据流示例 - 用户注册：
+
+1. main.cpp 调用 userModule.registerUser("张三", "zhang@example.com", 25)
+   ↓
+2. UserModule 进行业务验证（邮箱格式、年龄范围等）
+   ↓
+3. UserModule 调用 getUserDAO().findByEmail() 检查邮箱是否已存在
+   ↓
+4. UserDAO 将查询转换为 TableManager 操作
+   ↓
+5. TableManager 构建 SQL 语句
+   ↓
+6. DatabaseManager 执行 SQL
+   ↓
+7. MySQL Connector/C++ 与数据库通信
+   ↓
+8. MySQL Database 返回结果
+   ↓
+9. 结果逐层返回到 main.cpp
+
+═══════════════════════════════════════════════════════════════════════

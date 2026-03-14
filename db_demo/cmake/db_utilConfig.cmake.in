@@ -1,0 +1,26 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Find MySQL Connector/C++ dependency
+find_library(MYSQL_CPPCONN_LIB mysqlcppconn)
+if(NOT MYSQL_CPPCONN_LIB)
+    message(FATAL_ERROR "MySQL Connector/C++ library not found")
+endif()
+
+# Include targets for all layers
+# Infrastructure layer
+include("${CMAKE_CURRENT_LIST_DIR}/db_utilTargets.cmake")
+# DAO layer
+include("${CMAKE_CURRENT_LIST_DIR}/coreTargets.cmake")
+# Business logic layer
+include("${CMAKE_CURRENT_LIST_DIR}/modulesTargets.cmake")
+
+# Set include directories
+set(DB_UTIL_INCLUDE_DIRS
+    "${PACKAGE_PREFIX_DIR}/include/db_util"
+    "${PACKAGE_PREFIX_DIR}/include/core"
+    "${PACKAGE_PREFIX_DIR}/include/modules"
+)
+
+check_required_components(db_util core)

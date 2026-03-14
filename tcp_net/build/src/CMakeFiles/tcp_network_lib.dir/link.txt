@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libtcp_network_lib.a CMakeFiles/tcp_network_lib.dir/tcp_communicator.cc.o CMakeFiles/tcp_network_lib.dir/tcp_communicator_config.cc.o CMakeFiles/tcp_network_lib.dir/heartbeat_strategy.cc.o CMakeFiles/tcp_network_lib.dir/message_boundary_detector.cc.o
+/usr/bin/ranlib ../lib/libtcp_network_lib.a

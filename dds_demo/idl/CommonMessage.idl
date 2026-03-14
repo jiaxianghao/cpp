@@ -1,0 +1,8 @@
+// Common message type for general purpose communication
+struct CommonMessage
+{
+    string message_id;
+    string content;
+    long timestamp;
+    long sequence_number;
+};

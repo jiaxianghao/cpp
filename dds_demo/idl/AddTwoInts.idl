@@ -1,0 +1,20 @@
+// Service IDL for AddTwoInts - a classic ROS-style service example.
+// Convention for service types:
+//   - Request structs must contain: string request_id, string client_id
+//   - Response structs must contain: string request_id
+// These fields are used internally by ServiceClient and ServiceServer
+// for request/response correlation.
+
+struct AddTwoIntsRequest
+{
+    string request_id;
+    string client_id;
+    long a;
+    long b;
+};
+
+struct AddTwoIntsResponse
+{
+    string request_id;
+    long sum;
+};

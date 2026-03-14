@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/uisee/work/test2/build",
+  "command": "/usr/bin/g++  -Wall -Wextra -g -g -std=gnu++17 -o CMakeFiles/uos_rmap_mock_test.dir/ut/uos_rmap_mock_test.cc.o -c /home/uisee/work/test2/ut/uos_rmap_mock_test.cc",
+  "file": "/home/uisee/work/test2/ut/uos_rmap_mock_test.cc",
+  "output": "CMakeFiles/uos_rmap_mock_test.dir/ut/uos_rmap_mock_test.cc.o"
+}
+]
