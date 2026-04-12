@@ -5,7 +5,7 @@ A unified C++ interface for multiple communication protocols on Linux, including
 ## Features
 
 - **Unified Interface**: All transport types implement the same `ITransport` interface
-- **Thread-Safe**: All operations are protected by mutexes
+- **Basic Thread Safety**: State transitions are synchronized; do not assume fully parallel blocking I/O on one instance
 - **RAII**: Automatic resource management and cleanup
 - **Factory Pattern**: Easy creation of transport instances
 - **Linux Native**: Uses Linux APIs for optimal performance
@@ -19,7 +19,7 @@ A unified C++ interface for multiple communication protocols on Linux, including
 
 ### 2. Socket Communication
 - TCP and UDP support
-- IPv4 and IPv6 support
+- IPv4 support
 - Client and server modes
 - Standard Linux socket API
 
@@ -65,9 +65,11 @@ sudo make install
 ### Build Options
 
 - `BUILD_EXAMPLES`: Build example programs (default: ON)
+- `BUILD_TESTS`: Build test programs (default: ON)
 
 ```bash
 cmake -DBUILD_EXAMPLES=OFF ..
+cmake -DBUILD_TESTS=OFF ..
 ```
 
 ## Usage
@@ -214,7 +216,7 @@ sudo chmod 666 /dev/ttyUSB0
 
 ### Shared Memory
 
-Shared memory objects are created in `/dev/shm/`. Ensure proper permissions:
+Shared memory objects are created in `/dev/shm/`. They are not automatically unlinked on `Close()`, so cleanup is explicit:
 
 ```bash
 # Check permissions

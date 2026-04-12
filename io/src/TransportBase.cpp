@@ -44,9 +44,19 @@ void TransportBase::SetError(const std::string& error)
 
 void TransportBase::SetErrorFromErrno(const std::string& context)
 {
+    SetErrorFromErrno(errno, context);
+}
+
+void TransportBase::SetErrorFromErrno(int errnum, const std::string& context)
+{
     char buf[256];
-    strerror_r(errno, buf, sizeof(buf));
+#if defined(__GLIBC__) && defined(_GNU_SOURCE)
+    char* message = strerror_r(errnum, buf, sizeof(buf));
+    m_lastError = context + ": " + std::string(message);
+#else
+    strerror_r(errnum, buf, sizeof(buf));
     m_lastError = context + ": " + std::string(buf);
+#endif
 }
 
 } // namespace transport

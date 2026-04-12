@@ -32,23 +32,38 @@ bool SharedMemoryTransport::Open()
         return false;
     }
 
+    m_creator = false;
+    bool created = false;
     int flags = O_RDWR;
     if (m_config.create)
     {
-        flags |= O_CREAT;
-        m_creator = true;
+        flags |= O_CREAT | O_EXCL;
     }
 
     // Open or create shared memory
     m_fd = shm_open(m_config.name.c_str(), flags, 0666);
+    if (m_fd >= 0)
+    {
+        created = m_config.create;
+    }
+    if (m_fd < 0)
+    {
+        if (m_config.create && errno == EEXIST)
+        {
+            m_fd = shm_open(m_config.name.c_str(), O_RDWR, 0666);
+        }
+    }
+
     if (m_fd < 0)
     {
         SetErrorFromErrno("Failed to open shared memory");
         return false;
     }
 
+    m_creator = created;
+
     // Set size if creating
-    if (m_config.create)
+    if (m_creator)
     {
         size_t total_size = sizeof(ShmHeader) + m_config.size;
         if (ftruncate(m_fd, total_size) < 0)
@@ -80,7 +95,7 @@ bool SharedMemoryTransport::Open()
     }
 
     // Initialize header if creating
-    if (m_config.create)
+    if (m_creator)
     {
         ShmHeader* header = static_cast<ShmHeader*>(m_shmAddr);
         header->data_size = 0;
@@ -91,11 +106,11 @@ bool SharedMemoryTransport::Open()
     std::string write_sem_name = m_config.name + "_write";
     std::string read_sem_name = m_config.name + "_read";
 
-    if (m_config.create)
+    if (m_creator)
     {
         // Create semaphores
-        m_writeSem = sem_open(write_sem_name.c_str(), O_CREAT, 0666, 1);
-        m_readSem = sem_open(read_sem_name.c_str(), O_CREAT, 0666, 0);
+        m_writeSem = sem_open(write_sem_name.c_str(), O_CREAT | O_EXCL, 0666, 1);
+        m_readSem = sem_open(read_sem_name.c_str(), O_CREAT | O_EXCL, 0666, 0);
     }
     else
     {
@@ -142,22 +157,12 @@ void SharedMemoryTransport::Close()
     if (m_writeSem != SEM_FAILED)
     {
         sem_close(m_writeSem);
-        if (m_creator)
-        {
-            std::string write_sem_name = m_config.name + "_write";
-            sem_unlink(write_sem_name.c_str());
-        }
         m_writeSem = SEM_FAILED;
     }
 
     if (m_readSem != SEM_FAILED)
     {
         sem_close(m_readSem);
-        if (m_creator)
-        {
-            std::string read_sem_name = m_config.name + "_read";
-            sem_unlink(read_sem_name.c_str());
-        }
         m_readSem = SEM_FAILED;
     }
 
@@ -173,14 +178,11 @@ void SharedMemoryTransport::Close()
     if (m_fd >= 0)
     {
         ::close(m_fd);
-        if (m_creator)
-        {
-            shm_unlink(m_config.name.c_str());
-        }
         m_fd = -1;
     }
 
     SetConnected(false);
+    m_creator = false;
 }
 
 int SharedMemoryTransport::Send(const void* data, size_t size)

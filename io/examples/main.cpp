@@ -1,4 +1,5 @@
 #include "TransportFactory.h"
+#include <linux/can.h>
 #include <iostream>
 #include <cstring>
 #include <thread>

@@ -70,14 +70,26 @@ int SerialTransport::Send(const void* data, size_t size)
         return -1;
     }
 
-    ssize_t result = ::write(m_fd, data, size);
-    if (result < 0)
+    size_t total_sent = 0;
+    const char* bytes = static_cast<const char*>(data);
+    while (total_sent < size)
     {
-        SetErrorFromErrno("Failed to write to serial port");
-        return -1;
+        ssize_t result = ::write(m_fd, bytes + total_sent, size - total_sent);
+        if (result < 0)
+        {
+            SetErrorFromErrno("Failed to write to serial port");
+            return -1;
+        }
+
+        if (result == 0)
+        {
+            break;
+        }
+
+        total_sent += static_cast<size_t>(result);
     }
 
-    return static_cast<int>(result);
+    return static_cast<int>(total_sent);
 }
 
 int SerialTransport::Receive(void* buffer, size_t size)

@@ -53,10 +53,18 @@ set_target_properties(transport_shared PROPERTIES OUTPUT_NAME transport)
 
 # Build examples
 option(BUILD_EXAMPLES "Build example programs" ON)
+option(BUILD_TESTS "Build test programs" ON)
 
 if(BUILD_EXAMPLES)
     add_executable(transport_example examples/main.cpp)
     target_link_libraries(transport_example transport_static)
+endif()
+
+if(BUILD_TESTS)
+    enable_testing()
+    add_executable(transport_tests tests/basic_tests.cpp)
+    target_link_libraries(transport_tests transport_static)
+    add_test(NAME transport_tests COMMAND transport_tests)
 endif()
 
 # Installation
@@ -76,4 +84,5 @@ message(STATUS "  Version: ${PROJECT_VERSION}")
 message(STATUS "  C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "  Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  Build Examples: ${BUILD_EXAMPLES}")
+message(STATUS "  Build Tests: ${BUILD_TESTS}")
 message(STATUS "")

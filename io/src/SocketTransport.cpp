@@ -49,71 +49,108 @@ bool SocketTransport::Open()
 
 void SocketTransport::Close()
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    if (m_clientFd >= 0)
+    int client_fd = -1;
+    int fd = -1;
     {
-        ::close(m_clientFd);
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        client_fd = m_clientFd;
+        fd = m_fd;
         m_clientFd = -1;
-    }
-
-    if (m_fd >= 0)
-    {
-        ::close(m_fd);
         m_fd = -1;
+        SetConnected(false);
     }
 
-    SetConnected(false);
+    if (client_fd >= 0)
+    {
+        ::shutdown(client_fd, SHUT_RDWR);
+        ::close(client_fd);
+    }
+
+    if (fd >= 0)
+    {
+        ::shutdown(fd, SHUT_RDWR);
+        ::close(fd);
+    }
 }
 
 int SocketTransport::Send(const void* data, size_t size)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    if (!m_connected)
+    int sock = -1;
+    SocketConfig::Protocol protocol = SocketConfig::Protocol::TCP;
     {
-        SetError("Socket not connected");
-        return -1;
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        if (!m_connected)
+        {
+            SetError("Socket not connected");
+            return -1;
+        }
+
+        sock = (m_config.is_server && m_clientFd >= 0) ? m_clientFd : m_fd;
+        protocol = m_config.protocol;
+        if (sock < 0)
+        {
+            SetError("Invalid socket descriptor");
+            return -1;
+        }
     }
 
-    int sock = (m_config.is_server && m_clientFd >= 0) ? m_clientFd : m_fd;
-    if (sock < 0)
+    size_t total_sent = 0;
+    const char* bytes = static_cast<const char*>(data);
+    while (total_sent < size)
     {
-        SetError("Invalid socket descriptor");
-        return -1;
+        ssize_t result = ::send(sock, bytes + total_sent, size - total_sent, 0);
+        if (result < 0)
+        {
+            int err = errno;
+            std::lock_guard<std::mutex> lock(m_mutex);
+            SetErrorFromErrno(err, "Failed to send data");
+            return -1;
+        }
+
+        if (result == 0)
+        {
+            break;
+        }
+
+        total_sent += static_cast<size_t>(result);
+
+        if (protocol == SocketConfig::Protocol::UDP)
+        {
+            break;
+        }
     }
 
-    ssize_t result = ::send(sock, data, size, 0);
-    if (result < 0)
-    {
-        SetErrorFromErrno("Failed to send data");
-        return -1;
-    }
-
-    return static_cast<int>(result);
+    return static_cast<int>(total_sent);
 }
 
 int SocketTransport::Receive(void* buffer, size_t size)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    if (!m_connected)
+    int sock = -1;
     {
-        SetError("Socket not connected");
-        return -1;
-    }
+        std::lock_guard<std::mutex> lock(m_mutex);
 
-    int sock = (m_config.is_server && m_clientFd >= 0) ? m_clientFd : m_fd;
-    if (sock < 0)
-    {
-        SetError("Invalid socket descriptor");
-        return -1;
+        if (!m_connected)
+        {
+            SetError("Socket not connected");
+            return -1;
+        }
+
+        sock = (m_config.is_server && m_clientFd >= 0) ? m_clientFd : m_fd;
+        if (sock < 0)
+        {
+            SetError("Invalid socket descriptor");
+            return -1;
+        }
     }
 
     ssize_t result = ::recv(sock, buffer, size, 0);
     if (result < 0)
     {
-        SetErrorFromErrno("Failed to receive data");
+        int err = errno;
+        std::lock_guard<std::mutex> lock(m_mutex);
+        SetErrorFromErrno(err, "Failed to receive data");
         return -1;
     }
 
@@ -182,6 +219,16 @@ bool SocketTransport::SetupTCP()
         {
             SetErrorFromErrno("Failed to accept client connection");
             ::close(m_fd);
+            m_fd = -1;
+            return false;
+        }
+
+        if (setsockopt(m_clientFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
+        {
+            SetErrorFromErrno("Failed to set client socket options");
+            ::close(m_clientFd);
+            ::close(m_fd);
+            m_clientFd = -1;
             m_fd = -1;
             return false;
         }

@@ -28,16 +28,28 @@ TransportPtr TransportFactory::Create(TransportType type, const TransportConfig&
     switch (type)
     {
         case TransportType::SERIAL:
-            return CreateSerial(static_cast<const SerialConfig&>(config));
+        {
+            auto serial_config = dynamic_cast<const SerialConfig*>(&config);
+            return serial_config ? CreateSerial(*serial_config) : nullptr;
+        }
 
         case TransportType::SOCKET:
-            return CreateSocket(static_cast<const SocketConfig&>(config));
+        {
+            auto socket_config = dynamic_cast<const SocketConfig*>(&config);
+            return socket_config ? CreateSocket(*socket_config) : nullptr;
+        }
 
         case TransportType::SHARED_MEMORY:
-            return CreateSharedMemory(static_cast<const SharedMemoryConfig&>(config));
+        {
+            auto shm_config = dynamic_cast<const SharedMemoryConfig*>(&config);
+            return shm_config ? CreateSharedMemory(*shm_config) : nullptr;
+        }
 
         case TransportType::CAN:
-            return CreateCan(static_cast<const CanConfig&>(config));
+        {
+            auto can_config = dynamic_cast<const CanConfig*>(&config);
+            return can_config ? CreateCan(*can_config) : nullptr;
+        }
 
         default:
             return nullptr;

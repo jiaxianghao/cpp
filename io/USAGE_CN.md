@@ -201,6 +201,8 @@ ls -la /dev/shm/sem.*
 rm /dev/shm/sem.my_shm_*
 ```
 
+共享内存和信号量在 `Close()` 时不会自动删除；如果你希望对象在进程退出后消失，需要显式清理。
+
 ## 错误处理
 
 所有传输层都提供统一的错误处理：
@@ -230,7 +232,7 @@ if (received < 0)
 
 ## 线程安全
 
-所有传输实现都是线程安全的，可以在多线程环境中使用：
+所有传输实现都对内部状态做了同步保护，但单个实例上的阻塞收发不承诺完全并行：
 
 ```cpp
 auto transport = TransportFactory::CreateSocket(config);

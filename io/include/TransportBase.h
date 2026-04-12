@@ -30,6 +30,7 @@ protected:
 
     // Set error message from errno
     void SetErrorFromErrno(const std::string& context);
+    void SetErrorFromErrno(int errnum, const std::string& context);
 
     // Thread safety
     mutable std::mutex m_mutex;

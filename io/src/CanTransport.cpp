@@ -107,17 +107,17 @@ int CanTransport::Send(const void* data, size_t size)
     // Validate size
     if (m_config.use_canfd)
     {
-        if (size > sizeof(struct canfd_frame))
+        if (size != sizeof(struct canfd_frame))
         {
-            SetError("Data size exceeds CAN FD frame size");
+            SetError("CAN FD writes require a full canfd_frame");
             return -1;
         }
     }
     else
     {
-        if (size > sizeof(struct can_frame))
+        if (size != sizeof(struct can_frame))
         {
-            SetError("Data size exceeds CAN frame size");
+            SetError("CAN writes require a full can_frame");
             return -1;
         }
     }
