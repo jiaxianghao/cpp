@@ -2,12 +2,31 @@
 
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
 
 namespace {
+
+int add(int lhs, int rhs) {
+    return lhs + rhs;
+}
+
+struct Accumulator {
+    explicit Accumulator(int base) : base(base) {}
+
+    int addToBase(int value) const {
+        return base + value;
+    }
+
+    int operator()(int value) const {
+        return addToBase(value);
+    }
+
+    int base;
+};
 
 void require(bool condition, const char* message) {
     if (!condition) {
@@ -31,6 +50,29 @@ void runsSubmittedTasks() {
     }
 
     require(sum == 210, "submitted tasks returned incorrect results");
+}
+
+void supportsCommonCallableTypes() {
+    ThreadPool pool(2);
+
+    Accumulator accumulator(10);
+    int offset = 20;
+
+    auto free_function = pool.enqueue(add, 1, 2);
+    auto member_function = pool.enqueue(&Accumulator::addToBase, &accumulator, 3);
+    auto member_data = pool.enqueue(&Accumulator::base, &accumulator);
+    auto lambda = pool.enqueue([offset](int value) {
+        return offset + value;
+    }, 4);
+    auto function_object = pool.enqueue(accumulator, 5);
+    auto reference_wrapper = pool.enqueue(std::ref(accumulator), 6);
+
+    require(free_function.get() == 3, "free function task returned incorrect result");
+    require(member_function.get() == 13, "member function task returned incorrect result");
+    require(member_data.get() == 10, "member data task returned incorrect result");
+    require(lambda.get() == 24, "lambda task returned incorrect result");
+    require(function_object.get() == 15, "function object task returned incorrect result");
+    require(reference_wrapper.get() == 16, "reference_wrapper task returned incorrect result");
 }
 
 void supportsVoidTasksAndWaitIdle() {
@@ -81,6 +123,7 @@ void rejectsTasksAfterShutdown() {
 
 int main() {
     runsSubmittedTasks();
+    supportsCommonCallableTypes();
     supportsVoidTasksAndWaitIdle();
     propagatesTaskExceptions();
     rejectsTasksAfterShutdown();
