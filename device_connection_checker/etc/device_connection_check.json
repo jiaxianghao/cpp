@@ -1,0 +1,60 @@
+{
+    "device_connection_check": {
+        "enable": 1,
+        "check_on_startup": 1,
+        "periodic_check_enable": 0,
+        "periodic_check_interval": 60,
+        
+        "devices": [
+            {
+                "name": "autohook",
+                "enable": 1,
+                "ping_can_id": "0x100",
+                "pong_can_id": "0x101",
+                "ping_data": [170, 1, 0, 0, 0, 0, 0, 85],
+                "expected_pong_data": [187, 1, 0, 0, 0, 0, 0, 0],
+                "pong_data_mask": [255, 255, 0, 0, 0, 0, 0, 0],
+                "check_timeout": 2.0,
+                "retry_interval": 3.0,
+                "max_retry_count": 3
+            },
+            {
+                "name": "led_display",
+                "enable": 1,
+                "ping_can_id": "0x200",
+                "pong_can_id": "0x201",
+                "ping_data": [1, 0, 0, 0, 0, 0, 0, 0],
+                "expected_pong_data": [1, 1, 0, 0, 0, 0, 0, 0],
+                "pong_data_mask": [255, 255, 0, 0, 0, 0, 0, 0],
+                "check_timeout": 1.5,
+                "retry_interval": 2.0,
+                "max_retry_count": 2
+            },
+            {
+                "name": "avas",
+                "enable": 1,
+                "ping_can_id": "0x300",
+                "pong_can_id": "0x301",
+                "ping_data": [240, 0, 0, 0, 0, 0, 0, 0],
+                "expected_pong_data": [241, 0, 0, 0, 0, 0, 0, 0],
+                "pong_data_mask": [255, 0, 0, 0, 0, 0, 0, 0],
+                "check_timeout": 2.0,
+                "retry_interval": 3.0,
+                "max_retry_count": 3
+            },
+            {
+                "name": "trailer",
+                "enable": 0,
+                "ping_can_id": "0x400",
+                "pong_can_id": "0x401",
+                "ping_data": [85, 170, 0, 0, 0, 0, 0, 0],
+                "expected_pong_data": [170, 85, 0, 0, 0, 0, 0, 0],
+                "pong_data_mask": [255, 255, 0, 0, 0, 0, 0, 0],
+                "check_timeout": 2.5,
+                "retry_interval": 4.0,
+                "max_retry_count": 3
+            }
+        ]
+    }
+}
+

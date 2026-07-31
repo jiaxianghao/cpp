@@ -1,0 +1,93 @@
+# Build directories
+build/
+build-*/
+cmake-build-*/
+out/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.slo
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Compiled dynamic libraries
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# Compiled static libraries
+*.a
+*.lib
+*.la
+
+# Executables
+*.exe
+*.out
+*.app
+device_checker_example
+device_connection_checker_ut
+
+# Testing
+Testing/
+CTestTestfile.cmake
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.user
+*.suo
+*.ncb
+*.aps
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.opendb
+
+# Code coverage
+*.gcov
+*.gcda
+*.gcno
+coverage/
+*.info
+
+# Profiling
+*.prof
+gmon.out
+
+# Core dumps
+core
+core.*
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Install directory (if building locally)
+install/
+dist/
+
